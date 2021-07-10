@@ -16,6 +16,10 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    configurations.all() {
+        resolutionStrategy.force "org.antlr:antlr4-runtime:4.5.3"
+        resolutionStrategy.force "org.antlr:antlr4-tool:4.5.3"
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -67,6 +71,8 @@ dependencies {
     kapt "androidx.room:room-compiler:2.2.5"
 
     implementation "android.arch.work:work-runtime-ktx:1.0.1"
+    implementation 'androidx.room:room-ktx:2.2.5'
+
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
