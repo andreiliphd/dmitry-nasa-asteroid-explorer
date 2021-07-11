@@ -18,7 +18,7 @@ package com.udacity.asteroidradar.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.android.trackmysleepquality.database.AsteroidDatabaseDao
+import com.udacity.asteroidradar.database.AsteroidDatabaseDao
 
 /**
  * This is pretty much boiler plate code for a ViewModel Factory.
@@ -26,12 +26,13 @@ import com.example.android.trackmysleepquality.database.AsteroidDatabaseDao
  * Provides the key for the night and the SleepDatabaseDao to the ViewModel.
  */
 class DetailViewModelFactory(
-        private val sleepNightKey: Long,
-        private val dataSource: AsteroidDatabaseDao) : ViewModelProvider.Factory {
+        private val id: Long,
+        private val dataSource: AsteroidDatabaseDao
+) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DetailViewModel::class.java)) {
-            return DetailViewModel(sleepNightKey, dataSource) as T
+            return DetailViewModel(id, dataSource) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

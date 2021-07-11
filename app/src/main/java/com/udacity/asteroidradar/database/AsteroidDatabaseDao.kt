@@ -29,23 +29,23 @@ import androidx.room.Update
 interface AsteroidDatabaseDao {
 
     @Insert
-    suspend fun insert(night: Asteroid)
+    suspend fun insert(asteroid: Asteroid)
 
     /**
      * When updating a row with a value already set in a column,
      * replaces the old value with the new one.
      *
-     * @param night new value to write
+     * @param asteroid new value to write
      */
     @Update
-    suspend fun update(night: Asteroid)
+    suspend fun update(asteroid: Asteroid)
 
     /**
      * Selects and returns the row that matches the supplied start time, which is our key.
      *
      * @param key startTimeMilli to match
      */
-    @Query("SELECT * from asteroids_table WHERE nightId = :key")
+    @Query("SELECT * from asteroids_table WHERE id = :key")
     suspend fun getSelectedAsteroid(key: Long): Asteroid?
 
     /**
@@ -61,14 +61,14 @@ interface AsteroidDatabaseDao {
      *
      * sorted by start time in descending order.
      */
-    @Query("SELECT * FROM asteroids_table ORDER BY nightId DESC")
-    fun getAllNights(): LiveData<List<Asteroid>>
+    @Query("SELECT * FROM asteroids_table ORDER BY id DESC")
+    fun getAllasteroids(): LiveData<List<Asteroid>>
 
     /**
-     * Selects and returns the latest night.
+     * Selects and returns the latest asteroid.
      */
-    @Query("SELECT * FROM asteroids_table ORDER BY nightId DESC LIMIT 1")
-    suspend fun getTonight(): Asteroid?
+    @Query("SELECT * FROM asteroids_table ORDER BY id DESC LIMIT 1")
+    suspend fun getToasteroid(): Asteroid?
 
 }
 

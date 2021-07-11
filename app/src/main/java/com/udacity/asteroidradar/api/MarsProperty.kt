@@ -12,21 +12,23 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
  */
 
-package com.udacity.asteroidradar.detail
+package com.udacity.asteroidradar.api
 
+import android.os.Parcelable
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.udacity.asteroidradar.database.Asteroid
-import com.udacity.asteroidradar.database.AsteroidDatabaseDao
-import kotlinx.coroutines.*
+import com.squareup.moshi.Json
+import kotlinx.android.parcel.Parcelize
 
-class DetailViewModel(
-        private val id: Long = 0L,
-        val database: AsteroidDatabaseDao
-) : ViewModel() {
+@Parcelize
+data class MarsProperty(
+        val id: String,
+        // used to map img_src from the JSON to imgSrcUrl in our class
+        @Json(name = "img_src") val imgSrcUrl: String,
+        val type: String,
+        val price: Double) : Parcelable {
+    val isRental
+        get() = type == "rent"
 }
-
