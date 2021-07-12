@@ -19,7 +19,6 @@ package com.udacity.asteroidradar.main
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.android.trackmysleepquality.database.SleepDatabaseDao
 import com.udacity.asteroidradar.database.AsteroidDatabaseDao
 
 /**

@@ -94,10 +94,7 @@ class MainViewModel(val database: AsteroidDatabaseDao,
          */
         private suspend fun getasteroidFromDatabase(): Asteroid? {
             //return withContext(Dispatchers.IO) {
-            var asteroid = database.getSelectedAsteroid()
-            if (asteroid?.endTimeMilli != asteroid?.startTimeMilli) {
-                asteroid = null
-            }
+            var asteroid = database.getToasteroid()
             return asteroid
             //}
         }

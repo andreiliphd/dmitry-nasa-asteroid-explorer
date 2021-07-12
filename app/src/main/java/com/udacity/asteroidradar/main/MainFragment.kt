@@ -10,6 +10,7 @@ import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.database.AsteroidDatabase
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
+import kotlinx.android.synthetic.main.fragment_main.view.*
 
 class MainFragment : Fragment() {
 
@@ -38,8 +39,8 @@ class MainFragment : Fragment() {
 
         setHasOptionsMenu(true)
 
-        val adapter = AsteroidsAdapter(AsteroidsListener { nightId ->
-            MainViewModel.onAsteroidClicked(nightId)
+        val adapter = AsteroidsAdapter(AsteroidsListener { asteroidId ->
+            MainViewModel.onAsteroidClicked(asteroidId)
         })
 
         binding.asteroidRecycler.adapter = adapter
