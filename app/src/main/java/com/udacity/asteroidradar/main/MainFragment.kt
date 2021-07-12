@@ -1,14 +1,14 @@
 package com.udacity.asteroidradar.main
 
-import android.media.Image
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.R
+import com.udacity.asteroidradar.database.AsteroidDatabase
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
@@ -19,12 +19,30 @@ class MainFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val binding = FragmentMainBinding.inflate(inflater)
+        val binding: FragmentMainBinding = DataBindingUtil.inflate(
+            inflater, R.layout.fragment_main, container, false)
+
+        val application = requireNotNull(this.activity).application
+
+        val dataSource = AsteroidDatabase.getInstance(application).asteroidDatabaseDao
+
+        val viewModelFactory = MainViewModelFactory(dataSource, application)
+
+        val MainViewModel =
+            ViewModelProvider(
+                this, viewModelFactory).get(MainViewModel::class.java)
+        binding.viewModel = MainViewModel
+
         binding.lifecycleOwner = this
 
-        binding.viewModel = viewModel
 
         setHasOptionsMenu(true)
+
+        val adapter = AsteroidsAdapter(AsteroidsListener { nightId ->
+            MainViewModel.onAsteroidClicked(nightId)
+        })
+
+        binding.asteroidRecycler.adapter = adapter
 
         return binding.root
     }

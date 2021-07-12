@@ -1,51 +1,122 @@
 package com.udacity.asteroidradar.main
 
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.udacity.asteroidradar.api.MarsApi
 import com.udacity.asteroidradar.api.MarsProperty
+import com.udacity.asteroidradar.database.Asteroid
+import com.udacity.asteroidradar.database.AsteroidDatabaseDao
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class MainViewModel : ViewModel() {
-    // The internal MutableLiveData String that stores the most recent response status
-    private val _status = MutableLiveData<String>()
+class MainViewModel(val database: AsteroidDatabaseDao,
+                    application: Application
+) : AndroidViewModel(application) {
 
-    // The external immutable LiveData for the status String
-    val status: LiveData<String>
-        get() = _status
+        private var asteroid = MutableLiveData<Asteroid?>()
 
-    // Internally, we use a MutableLiveData, because we will be updating the List of MarsProperty
-    // with new values
-    private val _properties = MutableLiveData<List<MarsProperty>>()
+        val asteroids = database.getAllasteroids()
+   
 
-    // The external LiveData interface to the property is immutable, so only this class can modify
-    val properties: LiveData<List<MarsProperty>>
-        get() = _properties
+ 
+        val startButtonVisible = Transformations.map(asteroid) {
+            null == it
+        }
 
-    init {
-        getMarsRealEstateProperties()
-    }
+        val stopButtonVisible = Transformations.map(asteroid) {
+            null != it
+        }
 
-    /**
-     * Gets Mars real estate property information from the Mars API Retrofit service and updates the
-     * [MarsProperty] [List] [LiveData]. The Retrofit service returns a coroutine Deferred, which we
-     * await to get the result of the transaction.
-     */
-    private fun getMarsRealEstateProperties() {
-        viewModelScope.launch {
-            try {
-                var listResult = MarsApi.retrofitService.getProperties()
-                Log.i("RETROFIT", listResult.toString())
-                _status.value = "Success: ${listResult.size}"
-                if (listResult.size > 0) {
-                    _properties.value = listResult
-                }
-            } catch (e: Exception) {
-                _status.value = "Failure: ${e.message}"
+        val clearButtonVisible = Transformations.map(asteroids) {
+            it?.isNotEmpty()
+        }
+
+        private var _showSnackbarEvent = MutableLiveData<Boolean>()
+
+        val showSnackBarEvent: LiveData<Boolean>
+        get() = _showSnackbarEvent
+
+
+        private val _navigateToSleepQuality = MutableLiveData<Asteroid>()
+        
+
+        fun doneShowingSnackbar() {
+            _showSnackbarEvent.value = false
+        }
+
+        /**
+         * If this is non-null, immediately navigate to [SleepQualityFragment] and call [doneNavigating]
+         */
+        val navigateToSleepQuality: LiveData<Asteroid>
+        get() = _navigateToSleepQuality
+
+        /**
+         * Call this immediately after navigating to [SleepQualityFragment]
+         *
+         * It will clear the navigation request, so if the user rotates their phone it won't navigate
+         * twice.
+         */
+        fun doneNavigating() {
+            _navigateToSleepQuality.value = null
+        }
+
+        private val _navigateToSleepDataQuality = MutableLiveData<Long>()
+        val navigateToSleepDataQuality
+        get() = _navigateToSleepDataQuality
+
+        fun onAsteroidClicked(id: Long) {
+            _navigateToSleepDataQuality.value = id
+        }
+
+        fun onSleepDataQualityNavigated() {
+            _navigateToSleepDataQuality.value = null
+        }
+
+        init {
+            initializeasteroid()
+        }
+
+        private fun initializeasteroid() {
+            viewModelScope.launch {
+                asteroid.value = getasteroidFromDatabase()
             }
         }
-    }
+
+        /**
+         *  Handling the case of the stopped app or forgotten recording,
+         *  the start and end times will be the same.j
+         *
+         *  If the start time and end time are not the same, then we do not have an unfinished
+         *  recording.
+         */
+        private suspend fun getasteroidFromDatabase(): Asteroid? {
+            //return withContext(Dispatchers.IO) {
+            var asteroid = database.getSelectedAsteroid()
+            if (asteroid?.endTimeMilli != asteroid?.startTimeMilli) {
+                asteroid = null
+            }
+            return asteroid
+            //}
+        }
+
+        private suspend fun clear() {
+            withContext(Dispatchers.IO) {
+                database.clear()
+            }
+        }
+
+        private suspend fun update(asteroid: Asteroid) {
+            withContext(Dispatchers.IO) {
+                database.update(asteroid)
+            }
+        }
+
+        private suspend fun insert(asteroid: Asteroid) {
+            withContext(Dispatchers.IO) {
+                database.insert(asteroid)
+            }
+        }
 }
