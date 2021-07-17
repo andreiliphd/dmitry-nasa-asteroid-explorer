@@ -3,8 +3,8 @@ package com.udacity.asteroidradar.main
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
-import com.udacity.asteroidradar.api.MarsApi
-import com.udacity.asteroidradar.api.MarsProperty
+import com.udacity.asteroidradar.api.AsteroidApiService
+import com.udacity.asteroidradar.api.AsteroidApi
 import com.udacity.asteroidradar.database.Asteroid
 import com.udacity.asteroidradar.database.AsteroidDatabaseDao
 import kotlinx.coroutines.CoroutineScope
@@ -19,8 +19,18 @@ class MainViewModel(val database: AsteroidDatabaseDao,
         private var asteroid = MutableLiveData<Asteroid?>()
 
         val asteroids = database.getAllasteroids()
-   
+        init {
+            initializeasteroid()
+            getMarsRealEstateProperties()
+        }
 
+        private fun getMarsRealEstateProperties() {
+            viewModelScope.launch {
+                var listResult = AsteroidApi.retrofitService.getProperties("2015-09-07", "2015-09-08", "9exBRke8WpRX7E1yNPRf1EzOi60Z1jA8iGjHdQTZ")
+                Log.i("retrofit", listResult.toString())
+                Log.i("retrofit", "Success: ${listResult} Mars properties retrieved")
+            }
+        }
  
         val startButtonVisible = Transformations.map(asteroid) {
             null == it
@@ -73,10 +83,6 @@ class MainViewModel(val database: AsteroidDatabaseDao,
 
         fun onSleepDataQualityNavigated() {
             _navigateToSleepDataQuality.value = null
-        }
-
-        init {
-            initializeasteroid()
         }
 
         private fun initializeasteroid() {

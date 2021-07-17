@@ -20,12 +20,15 @@ package com.udacity.asteroidradar.api
 // import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.udacity.asteroidradar.Constants.BASE_URL
+import org.json.JSONObject
+import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
-// import kotlinx.coroutines.Deferred
+import retrofit2.http.Query
 
-private const val BASE_URL = "https://mars.udacity.com/"
+// import kotlinx.coroutines.Deferred
 
 /**
  * Build the Moshi object that Retrofit will be using, making sure to add the Kotlin adapter for
@@ -47,19 +50,21 @@ private val retrofit = Retrofit.Builder()
 /**
  * A public interface that exposes the [getProperties] method
  */
-interface MarsApiService {
+interface AsteroidApiService {
     /**
      * Returns a Coroutine [List] of [MarsProperty] which can be fetched with await() if in a Coroutine scope.
      * The @GET annotation indicates that the "realestate" endpoint will be requested with the GET
      * HTTP method
      */
-    @GET("realestate")
-    suspend fun getProperties(): List<MarsProperty>
+    @GET("neo/rest/v1/feed?")
+    suspend fun getProperties(@Query("start_date") start_date: String ,
+                              @Query("end_date") end_date: String ,
+                              @Query("api_key") api_key: String ): Call<Asteroids>
 }
 
 /**
  * A public Api object that exposes the lazy-initialized Retrofit service
  */
-object MarsApi {
-    val retrofitService : MarsApiService by lazy { retrofit.create(MarsApiService::class.java) }
+object AsteroidApi {
+    val retrofitService : AsteroidApiService by lazy { retrofit.create(AsteroidApiService::class.java) }
 }
