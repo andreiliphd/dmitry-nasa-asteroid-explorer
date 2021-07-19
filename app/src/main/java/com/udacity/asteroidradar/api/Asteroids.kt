@@ -17,160 +17,118 @@
 
 package com.udacity.asteroidradar.api
 
-import android.os.Parcelable
-import androidx.lifecycle.LiveData
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
-data class Asteroids(
-    val element_count: Int,
+@JsonClass(generateAdapter = true)
+data class Asteroids (
     val links: Links,
-    val near_earth_objects: List<Details>
-): Parcelable
 
-@Parcelize
-data class Links(
+    @Json(name = "element_count")
+    val elementCount: Long,
+
+    @Json(name = "near_earth_objects")
+    val nearEarthObjects: Map<String, List<NearEarthObject>>
+)
+
+data class Links (
     val next: String,
     val prev: String,
     val self: String
-): Parcelable
+)
 
-@Parcelize
-data class Details(
-    val absolute_magnitude_h: Double,
-    val close_approach_data: List<CloseApproachData>,
-    val estimated_diameter: EstimatedDiameterX,
+data class NearEarthObject (
+    val links: NearEarthObjectLinks,
     val id: String,
-    val is_potentially_hazardous_asteroid: Boolean,
-    val is_sentry_object: Boolean,
-    val links: LinksXX,
+
+    @Json(name = "neo_reference_id")
+    val neoReferenceID: String,
+
     val name: String,
-    val nasa_jpl_url: String,
-    val neo_reference_id: String
-): Parcelable
 
-@Parcelize
-data class CloseApproachData(
-    val close_approach_date: String,
-    val close_approach_date_full: String,
-    val epoch_date_close_approach: Long,
-    val miss_distance: MissDistance,
-    val orbiting_body: String,
-    val relative_velocity: RelativeVelocity
-): Parcelable
+    @Json(name = "nasa_jpl_url")
+    val nasaJplURL: String,
 
-@Parcelize
-data class EstimatedDiameter(
-    val feet: Feet,
-    val kilometers: Kilometers,
-    val meters: Meters,
-    val miles: Miles
-): Parcelable
+    @Json(name = "absolute_magnitude_h")
+    val absoluteMagnitudeH: Double,
 
-@Parcelize
-data class LinksX(
-    val self: String
-): Parcelable
+    @Json(name = "estimated_diameter")
+    val estimatedDiameter: EstimatedDiameter,
 
-@Parcelize
-data class MissDistance(
+    @Json(name = "is_potentially_hazardous_asteroid")
+    val isPotentiallyHazardousAsteroid: Boolean,
+
+    @Json(name = "close_approach_data")
+    val closeApproachData: List<CloseApproachDatum>,
+
+    @Json(name = "is_sentry_object")
+    val isSentryObject: Boolean
+)
+
+data class CloseApproachDatum (
+    @Json(name = "close_approach_date")
+    val closeApproachDate: String,
+
+    @Json(name = "close_approach_date_full")
+    val closeApproachDateFull: String,
+
+    @Json(name = "epoch_date_close_approach")
+    val epochDateCloseApproach: Long,
+
+    @Json(name = "relative_velocity")
+    val relativeVelocity: RelativeVelocity,
+
+    @Json(name = "miss_distance")
+    val missDistance: MissDistance,
+
+    @Json(name = "orbiting_body")
+    val orbitingBody: OrbitingBody
+)
+
+data class MissDistance (
     val astronomical: String,
-    val kilometers: String,
     val lunar: String,
+    val kilometers: String,
     val miles: String
-): Parcelable
+)
 
-@Parcelize
-data class RelativeVelocity(
-    val kilometers_per_hour: String,
-    val kilometers_per_second: String,
-    val miles_per_hour: String
-): Parcelable
+enum class OrbitingBody(val value: String) {
+    Earth("Earth");
 
-@Parcelize
-data class Feet(
-    val estimated_diameter_max: Double,
-    val estimated_diameter_min: Double
-): Parcelable
+    companion object {
+        public fun fromValue(value: String): OrbitingBody = when (value) {
+            "Earth" -> Earth
+            else    -> throw IllegalArgumentException()
+        }
+    }
+}
 
-@Parcelize
-data class Kilometers(
-    val estimated_diameter_max: Double,
-    val estimated_diameter_min: Double
-): Parcelable
+data class RelativeVelocity (
+    @Json(name = "kilometers_per_second")
+    val kilometersPerSecond: String,
 
-@Parcelize
-data class Meters(
-    val estimated_diameter_max: Double,
-    val estimated_diameter_min: Double
-): Parcelable
+    @Json(name = "kilometers_per_hour")
+    val kilometersPerHour: String,
 
-@Parcelize
-data class Miles(
-    val estimated_diameter_max: Double,
-    val estimated_diameter_min: Double
-): Parcelable
+    @Json(name = "miles_per_hour")
+    val milesPerHour: String
+)
 
-@Parcelize
-data class CloseApproachDataX(
-    val close_approach_date: String,
-    val close_approach_date_full: String,
-    val epoch_date_close_approach: Long,
-    val miss_distance: MissDistanceX,
-    val orbiting_body: String,
-    val relative_velocity: RelativeVelocityX
-): Parcelable
+data class EstimatedDiameter (
+    val kilometers: Feet,
+    val meters: Feet,
+    val miles: Feet,
+    val feet: Feet
+)
 
-@Parcelize
-data class EstimatedDiameterX(
-    val feet: FeetX,
-    val kilometers: KilometersX,
-    val meters: MetersX,
-    val miles: MilesX
-): Parcelable
+data class Feet (
+    @Json(name = "estimated_diameter_min")
+    val estimatedDiameterMin: Double,
 
-@Parcelize
-data class LinksXX(
+    @Json(name = "estimated_diameter_max")
+    val estimatedDiameterMax: Double
+)
+
+data class NearEarthObjectLinks (
     val self: String
-): Parcelable
-
-@Parcelize
-data class MissDistanceX(
-    val astronomical: String,
-    val kilometers: String,
-    val lunar: String,
-    val miles: String
-): Parcelable
-
-@Parcelize
-data class RelativeVelocityX(
-    val kilometers_per_hour: String,
-    val kilometers_per_second: String,
-    val miles_per_hour: String
-): Parcelable
-
-@Parcelize
-data class FeetX(
-    val estimated_diameter_max: Double,
-    val estimated_diameter_min: Double
-): Parcelable
-
-@Parcelize
-data class KilometersX(
-    val estimated_diameter_max: Double,
-    val estimated_diameter_min: Double
-): Parcelable
-
-@Parcelize
-data class MetersX(
-    val estimated_diameter_max: Double,
-    val estimated_diameter_min: Double
-): Parcelable
-
-@Parcelize
-data class MilesX(
-    val estimated_diameter_max: Double,
-    val estimated_diameter_min: Double
-): Parcelable
+)
