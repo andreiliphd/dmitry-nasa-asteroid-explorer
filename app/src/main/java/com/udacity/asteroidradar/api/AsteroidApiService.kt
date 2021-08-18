@@ -19,12 +19,11 @@ package com.udacity.asteroidradar.api
 
 // import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.udacity.asteroidradar.Constants.BASE_URL
-import retrofit2.Call
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -44,10 +43,12 @@ import retrofit2.http.Query
  * Use the Retrofit builder to build a retrofit object using a Moshi converter with our Moshi
  * object.
  */
-
+var gson: Gson? = GsonBuilder()
+    .setLenient()
+    .create()
 
 private val retrofit = Retrofit.Builder()
-    .addConverterFactory(ScalarsConverterFactory.create())
+    .addConverterFactory(GsonConverterFactory.create(gson))
     .baseUrl(BASE_URL)
     .build()
 
@@ -63,7 +64,7 @@ interface AsteroidApiService {
     @GET("neo/rest/v1/feed?")
     suspend fun getProperties(@Query("start_date") start_date: String ,
                               @Query("end_date") end_date: String ,
-                              @Query("api_key") api_key: String ): String
+                              @Query("api_key") api_key: String ): Asteroids
 }
 
 /**
