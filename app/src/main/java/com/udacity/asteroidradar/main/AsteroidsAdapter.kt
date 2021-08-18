@@ -16,6 +16,7 @@
 
 package com.udacity.asteroidradar.main
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,32 +31,28 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class AsteroidsAdapter(val clickListener: AsteroidsListener) : ListAdapter<DataItem,
-        RecyclerView.ViewHolder>(AsteroidsDiffCallback()) {
+class AsteroidsAdapter(val clickListener: AsteroidsListener) : ListAdapter<Asteroid,
+        AsteroidsAdapter.ViewHolder>(AsteroidsDiffCallback()) {
 
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
 
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder) {
-            is ViewHolder -> {
-                val nightItem = getItem(position) as DataItem.AsteroidsItem
-                holder.bind(clickListener, nightItem.asteroid)
-            }
-        }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val asteroidItem = getItem(position) as Asteroid
+        holder.bind(clickListener, asteroidItem)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
     }
 
 
     class ViewHolder private constructor(val binding: ListItemAsteroidBinding)
         : RecyclerView.ViewHolder(binding.root) {
-
         fun bind(clickListener: AsteroidsListener, item: Asteroid) {
-            binding.asteroid = item
+            Log.i("adapter", "binding")
+            binding.asteroid= item
             binding.clickListener = clickListener
             binding.executePendingBindings()
         }
@@ -77,28 +74,16 @@ class AsteroidsAdapter(val clickListener: AsteroidsListener) : ListAdapter<DataI
  * Used by ListAdapter to calculate the minumum number of changes between and old list and a new
  * list that's been passed to `submitList`.
  */
-class AsteroidsDiffCallback : DiffUtil.ItemCallback<DataItem>() {
-    override fun areItemsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
+class AsteroidsDiffCallback : DiffUtil.ItemCallback<Asteroid>() {
+    override fun areItemsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
+    override fun areContentsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
         return oldItem == newItem
     }
 }
 
 class AsteroidsListener(val clickListener: (sleepId: Long) -> Unit) {
     fun onClick(asteroid: Asteroid) = clickListener(asteroid.id)
-}
-
-sealed class DataItem {
-    data class AsteroidsItem(val asteroid: Asteroid): DataItem() {
-        override val id = asteroid.id
-    }
-
-    object Header: DataItem() {
-        override val id = Long.MIN_VALUE
-    }
-
-    abstract val id: Long
 }

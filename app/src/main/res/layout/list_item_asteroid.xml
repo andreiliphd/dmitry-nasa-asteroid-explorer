@@ -34,14 +34,16 @@
                 tools:srcCompat="@drawable/ic_status_potentially_hazardous" />
 
         <TextView
-            android:id="@+id/quality_string"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/quality_image"
-            app:layout_constraintStart_toStartOf="@+id/quality_image"
-            app:layout_constraintTop_toBottomOf="@+id/quality_image"
-            android:text="@{String.valueOf(asteroid.relativeVelocity)}" />
+                android:id="@+id/quality_string"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/quality_image"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:codename="@{asteroid}"
+                android:textColor="@color/default_text_color" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

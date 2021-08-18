@@ -3,6 +3,14 @@ package com.udacity.asteroidradar
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.udacity.asteroidradar.database.Asteroid
+
+@BindingAdapter("codename")
+fun TextView.setSleepQualityString(item: Asteroid?) {
+    item?.let {
+        text = item.codename
+    }
+}
 
 @BindingAdapter("statusIcon")
 fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
