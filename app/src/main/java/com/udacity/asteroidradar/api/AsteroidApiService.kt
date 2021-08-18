@@ -25,6 +25,7 @@ import com.udacity.asteroidradar.Constants.BASE_URL
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -35,10 +36,10 @@ import retrofit2.http.Query
  * Build the Moshi object that Retrofit will be using, making sure to add the Kotlin adapter for
  * full Kotlin compatibility.
  */
-private val moshi = Moshi.Builder()
-    .add(KotlinJsonAdapterFactory())
-    .build()
-
+//private val moshi = Moshi.Builder()
+//    .add(KotlinJsonAdapterFactory())
+//    .build()
+//
 /**
  * Use the Retrofit builder to build a retrofit object using a Moshi converter with our Moshi
  * object.
@@ -46,7 +47,7 @@ private val moshi = Moshi.Builder()
 
 
 private val retrofit = Retrofit.Builder()
-    .addConverterFactory(MoshiConverterFactory.create(moshi))
+    .addConverterFactory(ScalarsConverterFactory.create())
     .baseUrl(BASE_URL)
     .build()
 
@@ -62,12 +63,12 @@ interface AsteroidApiService {
     @GET("neo/rest/v1/feed?")
     suspend fun getProperties(@Query("start_date") start_date: String ,
                               @Query("end_date") end_date: String ,
-                              @Query("api_key") api_key: String ): Call<Asteroids>
+                              @Query("api_key") api_key: String ): String
 }
 
 /**
  * A public Api object that exposes the lazy-initialized Retrofit service
  */
 object AsteroidApi {
-    val retrofitService : AsteroidApiService by lazy { retrofit.create(AsteroidApiService::class.java) }
+    val retrofitService = retrofit.create(AsteroidApiService::class.java)
 }
