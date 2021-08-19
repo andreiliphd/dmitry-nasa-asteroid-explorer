@@ -2,15 +2,19 @@ package com.udacity.asteroidradar.main
 
 import android.app.Application
 import android.util.Log
+import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.lifecycle.*
-import com.udacity.asteroidradar.api.AsteroidApiService
+import com.squareup.picasso.Picasso
+import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.api.AsteroidApi
+import com.udacity.asteroidradar.api.POAD
 import com.udacity.asteroidradar.database.Asteroid
 import com.udacity.asteroidradar.database.AsteroidDatabaseDao
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
 
 class MainViewModel(
     val database: AsteroidDatabaseDao,
@@ -28,13 +32,16 @@ class MainViewModel(
 
     private fun getMarsRealEstateProperties() {
         viewModelScope.launch {
-            var listResult = AsteroidApi.retrofitService.getProperties(
-                "2021-09-07",
-                "2021-09-12",
-                "9exBRke8WpRX7E1yNPRf1EzOi60Z1jA8iGjHdQTZ"
-            )
-            Log.i("retrofit", listResult.toString())
-            Log.i("retrofit", "Success: ${listResult} Mars properties retrieved")
+            try {
+                var listResult = AsteroidApi.retrofitService.getAsteroids(
+                    "2021-09-07",
+                    "2021-09-12",
+                    "9exBRke8WpRX7E1yNPRf1EzOi60Z1jA8iGjHdQTZ"
+                )
+                Log.i("retrofit", listResult.toString())
+            } catch (e: Exception) {
+                Log.i("retrofit", "Couldn't load resource from NASA API.")
+            }
         }
     }
 

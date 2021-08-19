@@ -8,25 +8,52 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.R
+import com.udacity.asteroidradar.api.AsteroidApi
+import com.udacity.asteroidradar.api.POAD
 import com.udacity.asteroidradar.database.Asteroid
 import com.udacity.asteroidradar.database.AsteroidDatabase
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 import kotlinx.android.synthetic.main.fragment_main.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.lang.Exception
 
 class MainFragment : Fragment() {
+    val uiScope = CoroutineScope(Dispatchers.Main)
 
     private val viewModel: MainViewModel by lazy {
         ViewModelProvider(this).get(MainViewModel::class.java)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        uiScope.launch {
+            try {
+                var poad: POAD = AsteroidApi.retrofitService.getPictureOfADay(
+                    "9exBRke8WpRX7E1yNPRf1EzOi60Z1jA8iGjHdQTZ"
+                )
+                val imageViewOfTheDay: ImageView? =
+                    getView()?.findViewById<ImageView>(R.id.activity_main_image_of_the_day)
+                Picasso.get().load(poad.url).into(imageViewOfTheDay)
+                imageViewOfTheDay.contentDescription = poad.explanation
+            } catch (e: Exception) {
+                Log.i(
+                    "Picasso",
+                    "Couldn't load picture of the day from resource provided by NASA API."
+                )
+            }
+        }
         val binding: FragmentMainBinding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_main, container, false)
-
+            inflater, R.layout.fragment_main, container, false
+        )
         val application = requireNotNull(this.activity).application
 
         val dataSource = AsteroidDatabase.getInstance(application).asteroidDatabaseDao
@@ -35,7 +62,8 @@ class MainFragment : Fragment() {
 
         val MainViewModel =
             ViewModelProvider(
-                this, viewModelFactory).get(MainViewModel::class.java)
+                this, viewModelFactory
+            ).get(MainViewModel::class.java)
         binding.viewModel = MainViewModel
 
         binding.lifecycleOwner = this
@@ -48,10 +76,14 @@ class MainFragment : Fragment() {
         })
 
         binding.asteroidRecycler.adapter = adapter
-        adapter.submitList(listOf(Asteroid(2, "Bolero", "12-09-2018",0.12, 0.5, 5.6, 15252.25, true),
-            Asteroid(1, "Antares", "12-09-2018",0.12, 0.5, 5.6, 15252.25, true)))
+        adapter.submitList(
+            listOf(
+                Asteroid(2, "Bolero", "12-09-2018", 0.12, 0.5, 5.6, 15252.25, true),
+                Asteroid(1, "Antares", "12-09-2018", 0.12, 0.5, 5.6, 15252.25, true)
+            )
+        )
 
-        MainViewModel.asteroids.observe(viewLifecycleOwner,  Observer { asteroid ->
+        MainViewModel.asteroids.observe(viewLifecycleOwner, Observer { asteroid ->
             asteroid?.let {
                 Log.i("antares", it.toString())
             }
@@ -61,9 +93,6 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val imageViewOfTheDay: ImageView? =
-            getView()?.findViewById<ImageView>(R.id.activity_main_image_of_the_day)
-        Picasso.get().load("https://images.newscientist.com/wp-content/uploads/2021/04/21160754/21-april_pepper-the-robot.jpg?width=800").into(imageViewOfTheDay )
 
     }
 

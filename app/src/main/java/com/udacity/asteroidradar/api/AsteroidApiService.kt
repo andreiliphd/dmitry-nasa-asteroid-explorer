@@ -62,9 +62,13 @@ interface AsteroidApiService {
      * HTTP method
      */
     @GET("neo/rest/v1/feed?")
-    suspend fun getProperties(@Query("start_date") start_date: String ,
+    suspend fun getAsteroids(@Query("start_date") start_date: String ,
                               @Query("end_date") end_date: String ,
                               @Query("api_key") api_key: String ): Asteroids
+
+    @GET("planetary/apod?")
+    suspend fun getPictureOfADay(@Query("api_key") api_key: String ): POAD
+
 }
 
 /**
