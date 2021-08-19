@@ -93,6 +93,16 @@ class MainViewModel(
 
     private fun initializeasteroid() {
         viewModelScope.launch {
+            // Create a new night, which captures the current time,
+            // and insert it into the database.
+//            val newAsteroid = Asteroid(0, "Antares", "12-09-2018",0.12, 0.5, 5.6, 15252.25, true)
+//
+//            insert(newAsteroid)
+
+            Log.i("asteroids", asteroids.toString())
+        }
+
+        viewModelScope.launch {
             asteroid.value = getasteroidFromDatabase()
         }
     }

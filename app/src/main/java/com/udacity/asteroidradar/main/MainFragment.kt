@@ -1,13 +1,14 @@
 package com.udacity.asteroidradar.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.room.ColumnInfo
+import androidx.navigation.fragment.findNavController
 import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.database.Asteroid
@@ -50,6 +51,11 @@ class MainFragment : Fragment() {
         adapter.submitList(listOf(Asteroid(2, "Bolero", "12-09-2018",0.12, 0.5, 5.6, 15252.25, true),
             Asteroid(1, "Antares", "12-09-2018",0.12, 0.5, 5.6, 15252.25, true)))
 
+        MainViewModel.asteroids.observe(viewLifecycleOwner,  Observer { asteroid ->
+            asteroid?.let {
+                Log.i("antares", it.toString())
+            }
+        })
         return binding.root
     }
 
