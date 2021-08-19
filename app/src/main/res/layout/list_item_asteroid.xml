@@ -57,7 +57,7 @@
                 app:layout_constraintTop_toTopOf="@+id/quality_string"
                 android:textColor="@color/default_text_color"
                 app:layout_constraintBottom_toBottomOf="@+id/quality_string"
-                android:text="@={asteroid.codename}"
+                android:text="@={asteroid.closeApproachDate}"
                 android:layout_marginEnd="16dp" />
 
 

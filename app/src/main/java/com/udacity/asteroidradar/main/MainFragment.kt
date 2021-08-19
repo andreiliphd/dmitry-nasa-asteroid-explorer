@@ -43,7 +43,7 @@ class MainFragment : Fragment() {
                 val imageViewOfTheDay: ImageView? =
                     getView()?.findViewById<ImageView>(R.id.activity_main_image_of_the_day)
                 Picasso.get().load(poad.url).into(imageViewOfTheDay)
-                imageViewOfTheDay.contentDescription = poad.explanation
+                imageViewOfTheDay?.contentDescription = poad.explanation
             } catch (e: Exception) {
                 Log.i(
                     "Picasso",
@@ -78,8 +78,8 @@ class MainFragment : Fragment() {
         binding.asteroidRecycler.adapter = adapter
         adapter.submitList(
             listOf(
-                Asteroid(2, "Bolero", "12-09-2018", 0.12, 0.5, 5.6, 15252.25, true),
-                Asteroid(1, "Antares", "12-09-2018", 0.12, 0.5, 5.6, 15252.25, true)
+                Asteroid(2, "Bolero", "12-09-2018", 0.12, 0.5,  0.2,0.2555,true),
+                Asteroid(1, "Antares", "12-09-2018", 0.12, 0.5, 0.2,0.2555,true)
             )
         )
 
