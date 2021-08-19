@@ -37,12 +37,28 @@
                 android:id="@+id/quality_string"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/quality_image"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:codename="@{asteroid}"
-                android:textColor="@color/default_text_color" />
+                android:textColor="@color/default_text_color"
+                android:inputType="textMultiLine"
+                app:layout_constraintEnd_toStartOf="@+id/editTextTextEmailAddress"
+                app:layout_constraintStart_toEndOf="@+id/quality_image"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp" />
+
+        <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:ems="10"
+                android:id="@+id/editTextTextEmailAddress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/quality_string"
+                android:textColor="@color/default_text_color"
+                app:layout_constraintBottom_toBottomOf="@+id/quality_string"
+                android:text="@={asteroid.codename}"
+                android:layout_marginEnd="16dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

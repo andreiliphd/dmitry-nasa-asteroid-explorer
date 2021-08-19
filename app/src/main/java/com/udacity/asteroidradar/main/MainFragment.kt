@@ -5,6 +5,7 @@ import android.view.*
 import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.ColumnInfo
 import com.squareup.picasso.Picasso
@@ -46,8 +47,9 @@ class MainFragment : Fragment() {
         })
 
         binding.asteroidRecycler.adapter = adapter
-        adapter.submitList(listOf(Asteroid(1, "Antares", "12-09-2018",0.12, 0.5, 5.6, 15252.25, true)))
-        adapter.submitList(listOf(Asteroid(2, "Bolero", "12-09-2018",0.12, 0.5, 5.6, 15252.25, true)))
+        adapter.submitList(listOf(Asteroid(2, "Bolero", "12-09-2018",0.12, 0.5, 5.6, 15252.25, true),
+            Asteroid(1, "Antares", "12-09-2018",0.12, 0.5, 5.6, 15252.25, true)))
+
         return binding.root
     }
 

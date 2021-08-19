@@ -3,7 +3,9 @@ package com.udacity.asteroidradar
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
 import com.udacity.asteroidradar.database.Asteroid
+
 
 @BindingAdapter("codename")
 fun TextView.setSleepQualityString(item: Asteroid?) {
