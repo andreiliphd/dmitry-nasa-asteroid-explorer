@@ -8,7 +8,14 @@ import com.udacity.asteroidradar.database.Asteroid
 
 
 @BindingAdapter("codename")
-fun TextView.setSleepQualityString(item: Asteroid?) {
+fun TextView.setCodename(item: Asteroid?) {
+    item?.let {
+        text = item.codename.toString()
+    }
+}
+
+@BindingAdapter("closeApproachDate")
+fun TextView.setCloseApproachDate(item: Asteroid?) {
     item?.let {
         text = item.closeApproachDate.toString()
     }

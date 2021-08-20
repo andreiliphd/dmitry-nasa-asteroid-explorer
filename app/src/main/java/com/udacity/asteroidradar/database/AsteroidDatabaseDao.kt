@@ -70,7 +70,7 @@ interface AsteroidDatabaseDao {
     suspend fun getToasteroid(): Asteroid?
 
     @Query("SELECT * from asteroids_table WHERE closeApproachDate >= :currentDate AND closeApproachDate <= :futureDate ORDER BY closeApproachDate ASC")
-    suspend fun getPeriod(currentDate: Date, futureDate: Date): LiveData<List<Asteroid>>
+    fun getPeriod(currentDate: Date, futureDate: Date): LiveData<MutableList<Asteroid>>
 
 }
 

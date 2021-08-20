@@ -28,7 +28,7 @@ class MainViewModel(
 
     private var asteroid = MutableLiveData<Asteroid?>()
 
-    lateinit var asteroids: LiveData<List<Asteroid>>
+    lateinit var asteroids: LiveData<MutableList<Asteroid>>
 
     init {
         initializeasteroid()
