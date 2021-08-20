@@ -45,10 +45,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginBottom="24dp" />
+                android:layout_marginBottom="24dp"
+                android:text="Fri 20 Aug"
+                tools:text="Fri 20 Aug" />
 
         <TextView
-                android:text="Sample Test for Testing"
+                android:text="Antares"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/closeApproachDate"
@@ -60,7 +62,8 @@
                 android:layout_marginBottom="8dp"
                 android:textColor="@color/default_text_color"
                 app:layout_constraintStart_toStartOf="@+id/codename"
-                app:layout_constraintHorizontal_bias="0.0" />
+                app:layout_constraintHorizontal_bias="0.0"
+                tools:text="Antares" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
