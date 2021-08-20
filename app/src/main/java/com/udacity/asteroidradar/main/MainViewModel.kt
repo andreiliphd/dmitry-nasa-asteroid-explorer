@@ -31,22 +31,6 @@ class MainViewModel(
 
     init {
         initializeasteroid()
-        getMarsRealEstateProperties()
-    }
-
-    private fun getMarsRealEstateProperties() {
-        viewModelScope.launch {
-            try {
-                var listResult = AsteroidApi.retrofitService.getAsteroids(
-                    "2021-09-07",
-                    "2021-09-12",
-                    "9exBRke8WpRX7E1yNPRf1EzOi60Z1jA8iGjHdQTZ"
-                )
-                Log.i("retrofit", listResult.toString())
-            } catch (e: Exception) {
-                Log.i("retrofit", "Couldn't load resource from NASA API.")
-            }
-        }
     }
 
     val startButtonVisible = Transformations.map(asteroid) {
@@ -103,12 +87,13 @@ class MainViewModel(
     }
 
     private fun initializeasteroid() {
-        val uploadWorkRequest = OneTimeWorkRequestBuilder<AsteroidRepository>().build()
-        WorkManager.getInstance().enqueue(uploadWorkRequest)
+        val updateDatabase = OneTimeWorkRequestBuilder<AsteroidRepository>().build()
+        WorkManager.getInstance().enqueue(updateDatabase)
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.UNMETERED)
-            .setRequiresBatteryNotLow(true)
             .setRequiresCharging(true)
+            .setRequiresBatteryNotLow(true)
+            .setRequiresStorageNotLow(true)
             .apply {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     setRequiresDeviceIdle(true)
