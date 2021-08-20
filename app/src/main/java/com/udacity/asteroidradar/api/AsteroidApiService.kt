@@ -22,11 +22,12 @@ package com.udacity.asteroidradar.api
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.udacity.asteroidradar.Constants.BASE_URL
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
+import java.util.concurrent.TimeUnit
 
 
 // import kotlinx.coroutines.Deferred
@@ -47,7 +48,14 @@ var gson: Gson? = GsonBuilder()
     .setLenient()
     .create()
 
+val okHttpClient: OkHttpClient = OkHttpClient.Builder()
+    .connectTimeout(20, TimeUnit.SECONDS)
+    .writeTimeout(20, TimeUnit.SECONDS)
+    .readTimeout(30, TimeUnit.SECONDS)
+    .build()
+
 private val retrofit = Retrofit.Builder()
+    .client(okHttpClient)
     .addConverterFactory(GsonConverterFactory.create(gson))
     .baseUrl(BASE_URL)
     .build()
