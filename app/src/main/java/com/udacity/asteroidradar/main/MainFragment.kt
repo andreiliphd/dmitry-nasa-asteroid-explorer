@@ -23,6 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.Exception
+import java.util.*
 
 class MainFragment : Fragment() {
     val uiScope = CoroutineScope(Dispatchers.Main)
@@ -76,12 +77,12 @@ class MainFragment : Fragment() {
         })
 
         binding.asteroidRecycler.adapter = adapter
-//        adapter.submitList(
-//            listOf(
-//                Asteroid(2, "Bolero", "12-09-2018", 0.12, 0.5,  0.2,0.2555,true),
-//                Asteroid(1, "Antares", "12-09-2018", 0.12, 0.5, 0.2,0.2555,true)
-//            )
-//        )
+        adapter.submitList(
+            listOf(
+                Asteroid(2, "Bolero", Date(2021, 8, 20), 0.12, 0.5,  0.2,0.2555,true),
+                Asteroid(1, "Antares", Date(2021, 8, 22), 0.12, 0.5, 0.2,0.2555,true)
+            )
+        )
 
         MainViewModel.asteroids.observe(viewLifecycleOwner, Observer { asteroid ->
             asteroid?.let {

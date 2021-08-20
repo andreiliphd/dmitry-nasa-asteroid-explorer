@@ -29,7 +29,7 @@ import androidx.room.TypeConverters
  * This pattern is pretty much the same for any database,
  * so you can reuse it.
  */
-@Database(entities = [Asteroid::class], version = 1, exportSchema = false)
+@Database(entities = [Asteroid::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AsteroidDatabase : RoomDatabase() {
 
