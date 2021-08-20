@@ -17,7 +17,6 @@ import com.udacity.asteroidradar.database.AsteroidRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.sql.Date
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -111,9 +110,9 @@ class MainViewModel(
             AsteroidRepository.WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
             repeatingRequest)
-//        viewModelScope.launch {
-//            Log.i("seven-days", database.getPeriod(Date(Calendar.getInstance().timeInMillis), Date(Calendar.getInstance().timeInMillis + 7 * 24 * 3600 * 1000)).toString())
-//        }
+        viewModelScope.launch {
+            Log.i("seven-days", database.getPeriod(Date(Calendar.getInstance().timeInMillis), Date(Calendar.getInstance().timeInMillis + 7 * 24 * 3600 * 1000)).toString())
+        }
     }
 
 

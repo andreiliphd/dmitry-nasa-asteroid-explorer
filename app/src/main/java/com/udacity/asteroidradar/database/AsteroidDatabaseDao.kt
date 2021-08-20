@@ -18,7 +18,7 @@ package com.udacity.asteroidradar.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import java.sql.Date
+import java.util.*
 
 /**
  * Defines methods for using the Asteroid class with Room.
@@ -68,8 +68,8 @@ interface AsteroidDatabaseDao {
     @Query("SELECT * FROM asteroids_table ORDER BY id DESC LIMIT 1")
     suspend fun getToasteroid(): Asteroid?
 
-//    @Query("SELECT * from asteroids_table WHERE closeApproachDate >= :currentDate AND closeApproachDate <= :futureDate")
-//    suspend fun getPeriod(currentDate: Date, futureDate: Date): Asteroid?
+    @Query("SELECT * from asteroids_table WHERE closeApproachDate >= :currentDate AND closeApproachDate <= :futureDate ORDER BY closeApproachDate ASC")
+    suspend fun getPeriod(currentDate: Date, futureDate: Date): List<Asteroid>?
 
 }
 
