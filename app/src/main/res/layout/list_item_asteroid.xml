@@ -22,14 +22,15 @@
         android:onClick="@{() -> clickListener.onClick(asteroid)}">
 
         <ImageView
-                android:id="@+id/quality_image"
-                android:layout_width="18dp"
-                android:layout_height="60dp"
+                android:id="@+id/smile"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@drawable/ic_status_potentially_hazardous" />
+                tools:srcCompat="@drawable/ic_status_potentially_hazardous"
+                app:srcCompat="@drawable/ic_status_potentially_hazardous"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView
                 android:id="@+id/codename"
@@ -39,7 +40,7 @@
                 android:inputType="textMultiLine"
                 app:closeApproachDate="@{asteroid}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/quality_image"
+                app:layout_constraintStart_toEndOf="@+id/smile"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
