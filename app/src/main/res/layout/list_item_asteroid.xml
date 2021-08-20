@@ -30,6 +30,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@drawable/ic_status_potentially_hazardous"
                 app:srcCompat="@drawable/ic_status_potentially_hazardous"
+                app:isPotentiallyHazardous="@{asteroid}"
                 app:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView

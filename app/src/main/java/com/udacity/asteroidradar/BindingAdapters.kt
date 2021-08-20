@@ -21,6 +21,17 @@ fun TextView.setCloseApproachDate(item: Asteroid?) {
     }
 }
 
+@BindingAdapter("isPotentiallyHazardous")
+fun ImageView.setIsPotentiallyHazardous(item: Asteroid?) {
+    item?.let {
+        if (it.isPotentiallyHazardous){
+            setImageResource(R.drawable.ic_status_potentially_hazardous)
+        } else {
+            setImageResource(R.drawable.ic_status_normal)
+        }
+    }
+}
+
 @BindingAdapter("statusIcon")
 fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
     if (isHazardous) {
