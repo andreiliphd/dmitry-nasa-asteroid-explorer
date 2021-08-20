@@ -17,10 +17,7 @@
 package com.udacity.asteroidradar.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 
 /**
  * Defines methods for using the Asteroid class with Room.
@@ -28,7 +25,7 @@ import androidx.room.Update
 @Dao
 interface AsteroidDatabaseDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(asteroid: Asteroid)
 
     /**

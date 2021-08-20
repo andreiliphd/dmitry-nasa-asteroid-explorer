@@ -1,19 +1,23 @@
 package com.udacity.asteroidradar.main
 
 import android.app.Application
+import android.os.Build
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.lifecycle.*
+import androidx.work.*
 import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.api.AsteroidApi
 import com.udacity.asteroidradar.api.POAD
 import com.udacity.asteroidradar.database.Asteroid
 import com.udacity.asteroidradar.database.AsteroidDatabaseDao
+import com.udacity.asteroidradar.database.AsteroidRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.concurrent.TimeUnit
 
 
 class MainViewModel(
@@ -99,19 +103,27 @@ class MainViewModel(
     }
 
     private fun initializeasteroid() {
-        viewModelScope.launch {
-            // Create a new night, which captures the current time,
-            // and insert it into the database.
-//            val newAsteroid = Asteroid(0, "Antares", "12-09-2018",0.12, 0.5, 5.6, 15252.25, true)
-//
-//            insert(newAsteroid)
+        val uploadWorkRequest = OneTimeWorkRequestBuilder<AsteroidRepository>().build()
+        WorkManager.getInstance().enqueue(uploadWorkRequest)
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.UNMETERED)
+            .setRequiresBatteryNotLow(true)
+            .setRequiresCharging(true)
+            .apply {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    setRequiresDeviceIdle(true)
+                }
+            }.build()
 
-            Log.i("asteroids", asteroids.toString())
-        }
+        val repeatingRequest
+                = PeriodicWorkRequestBuilder<AsteroidRepository>(1, TimeUnit.DAYS)
+            .setConstraints(constraints)
+            .build()
 
-        viewModelScope.launch {
-            asteroid.value = getasteroidFromDatabase()
-        }
+        WorkManager.getInstance().enqueueUniquePeriodicWork(
+            AsteroidRepository.WORK_NAME,
+            ExistingPeriodicWorkPolicy.KEEP,
+            repeatingRequest)
     }
 
     /**
