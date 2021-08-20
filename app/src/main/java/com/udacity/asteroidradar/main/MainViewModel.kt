@@ -28,7 +28,7 @@ class MainViewModel(
 
     private var asteroid = MutableLiveData<Asteroid?>()
 
-    val asteroids = database.getAllasteroids()
+    lateinit var asteroids: LiveData<List<Asteroid>>
 
     init {
         initializeasteroid()
@@ -110,9 +110,11 @@ class MainViewModel(
             AsteroidRepository.WORK_NAME,
             ExistingPeriodicWorkPolicy.KEEP,
             repeatingRequest)
-        viewModelScope.launch {
+
+            viewModelScope.launch {
             Log.i("seven-days", database.getPeriod(Date(Calendar.getInstance().timeInMillis), Date(Calendar.getInstance().timeInMillis + 7 * 24 * 3600 * 1000)).toString())
-        }
+            asteroids = database.getPeriod(Date(Calendar.getInstance().timeInMillis), Date(Calendar.getInstance().timeInMillis + 7 * 24 * 3600 * 1000))
+    }
     }
 
 

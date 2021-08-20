@@ -27,7 +27,7 @@ import java.util.*
 
 class MainFragment : Fragment() {
     val uiScope = CoroutineScope(Dispatchers.Main)
-
+    lateinit var adapter: AsteroidsAdapter
     private val viewModel: MainViewModel by lazy {
         ViewModelProvider(this).get(MainViewModel::class.java)
     }
@@ -72,11 +72,17 @@ class MainFragment : Fragment() {
 
         setHasOptionsMenu(true)
 
-        val adapter = AsteroidsAdapter(AsteroidsListener { asteroidId ->
+        adapter = AsteroidsAdapter(AsteroidsListener { asteroidId ->
             MainViewModel.onAsteroidClicked(asteroidId)
         })
 
         binding.asteroidRecycler.adapter = adapter
+        MainViewModel.asteroids.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                adapter.submitList(it)
+            }
+        })
+
         adapter.submitList(
             listOf(
                 Asteroid(2, "Bolero", Date(2021, 8, 20), 0.12, 0.5,  0.2,0.2555,true),
