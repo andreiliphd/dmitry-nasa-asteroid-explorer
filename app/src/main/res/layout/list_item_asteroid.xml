@@ -31,14 +31,30 @@
                 tools:srcCompat="@drawable/ic_status_potentially_hazardous"
                 app:srcCompat="@drawable/ic_status_potentially_hazardous"
                 app:isPotentiallyHazardous="@{asteroid}"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:contentDescription="@string/contentDescriptionSmile" />
 
         <TextView
+                android:text="@string/textCodename"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/codename"
+                app:codename="@{asteroid}"
+                app:layout_constraintBottom_toTopOf="@+id/closeApproachDate"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/closeApproachDate"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:textColor="@color/default_text_color"
+                app:layout_constraintStart_toStartOf="@+id/closeApproachDate"
+                app:layout_constraintHorizontal_bias="0.0"
+                tools:text="Antares" />
+
+        <TextView
+                android:id="@+id/closeApproachDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/default_text_color"
-                android:inputType="textMultiLine"
                 app:closeApproachDate="@{asteroid}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/smile"
@@ -46,24 +62,9 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="24dp"
-                android:text="Fri 20 Aug"
-                tools:text="Fri 20 Aug" />
-
-        <TextView
-                android:text="Antares"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/closeApproachDate"
-                app:codename="@{asteroid}"
-                app:layout_constraintBottom_toTopOf="@+id/codename"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/codename"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="8dp"
-                android:textColor="@color/default_text_color"
-                app:layout_constraintStart_toStartOf="@+id/codename"
-                app:layout_constraintHorizontal_bias="0.0"
-                tools:text="Antares" />
+                android:text="@string/textCodename"
+                tools:text="@string/textCodename"
+                android:contentDescription="@string/contentDescroptionCodename" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

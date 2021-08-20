@@ -22,4 +22,9 @@
     <string name="contentDescriptionImageOfTheDay">Image of the day</string>
     <string name="contentDescriptionRecyclerView">List of asteroids with asteroid parameters</string>
     <string name="contentDescriptionImageOfTheDayLoading">Loading image of the day</string>
+    <string name="contentDescriptionSmile">Image showing whether asteroid is potentially hazardous</string>
+    <string name="contentDescroptionCodename">Codename of asteroid</string>
+    <string name="textCodename">Fri 20 Aug</string>
+    <string name="textCloseApproachDate">"Fri 20 Aug "</string>
+    />
 </resources>
