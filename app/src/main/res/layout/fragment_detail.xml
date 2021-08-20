@@ -51,6 +51,14 @@
                         android:text="@string/close_approach_data_title"
                         android:textColor="@color/default_text_color" />
 
+                    <TextView
+                            android:id="@+id/cad"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:textColor="@color/default_text_color"
+                            app:cad="@{asteroid.closeApproachDate}"
+                            tools:text="25.126 au" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -83,11 +91,12 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:id="@+id/help_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        app:srcCompat="@drawable/ic_help_circle" />
+                            android:id="@+id/help_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="16dp"
+                            app:srcCompat="@drawable/ic_help_circle"
+                            android:contentDescription="@string/contentDescriptionHelpButton" />
 
                 </LinearLayout>
 

@@ -26,5 +26,6 @@
     <string name="contentDescroptionCodename">Codename of asteroid</string>
     <string name="textCodename">Fri 20 Aug</string>
     <string name="textCloseApproachDate">"Fri 20 Aug "</string>
+    <string name="contentDescriptionHelpButton">Get details about parameter</string>
     />
 </resources>

@@ -38,7 +38,7 @@ class MainFragment : Fragment() {
     ): View? {
         uiScope.launch {
             try {
-                var poad: POAD = AsteroidApi.retrofitService.getPictureOfADay(
+                val poad: POAD = AsteroidApi.retrofitService.getPictureOfADay(
                     "9exBRke8WpRX7E1yNPRf1EzOi60Z1jA8iGjHdQTZ"
                 )
                 val imageViewOfTheDay: ImageView? =
@@ -83,18 +83,16 @@ class MainFragment : Fragment() {
             }
         })
 
-        adapter.submitList(
-            listOf(
-                Asteroid(2, "Bolero", Date(2021, 8, 20), 0.12, 0.5,  0.2,0.2555,true),
-                Asteroid(1, "Antares", Date(2021, 8, 22), 0.12, 0.5, 0.2,0.2555,true)
-            )
-        )
-
-        MainViewModel.asteroids.observe(viewLifecycleOwner, Observer { asteroid ->
+        MainViewModel.navigateToAsteroid.observe(viewLifecycleOwner, Observer { asteroid ->
             asteroid?.let {
-                Log.i("antares", it.toString())
+                this.findNavController().navigate(
+                    MainFragmentDirections
+                        .actionShowDetail(it)
+                )
+                MainViewModel.onAsteroidNavigated()
             }
         })
+
         return binding.root
     }
 

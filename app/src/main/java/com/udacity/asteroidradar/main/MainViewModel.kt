@@ -34,57 +34,17 @@ class MainViewModel(
         initializeasteroid()
     }
 
-    val startButtonVisible = Transformations.map(asteroid) {
-        null == it
+    private val _navigateToAsteroid = MutableLiveData<Asteroid>()
+    val navigateToAsteroid
+        get() = _navigateToAsteroid
+
+    fun onAsteroidClicked(asteroid: Asteroid) {
+        Log.i("click_listener", "Clicked on asteroid " + asteroid.toString())
+        _navigateToAsteroid.value = asteroid
     }
 
-    val stopButtonVisible = Transformations.map(asteroid) {
-        null != it
-    }
-
-    val clearButtonVisible = Transformations.map(asteroids) {
-        it?.isNotEmpty()
-    }
-
-    private var _showSnackbarEvent = MutableLiveData<Boolean>()
-
-    val showSnackBarEvent: LiveData<Boolean>
-        get() = _showSnackbarEvent
-
-
-    private val _navigateToSleepQuality = MutableLiveData<Asteroid>()
-
-
-    fun doneShowingSnackbar() {
-        _showSnackbarEvent.value = false
-    }
-
-    /**
-     * If this is non-null, immediately navigate to [SleepQualityFragment] and call [doneNavigating]
-     */
-    val navigateToSleepQuality: LiveData<Asteroid>
-        get() = _navigateToSleepQuality
-
-    /**
-     * Call this immediately after navigating to [SleepQualityFragment]
-     *
-     * It will clear the navigation request, so if the user rotates their phone it won't navigate
-     * twice.
-     */
-    fun doneNavigating() {
-        _navigateToSleepQuality.value = null
-    }
-
-    private val _navigateToSleepDataQuality = MutableLiveData<Long>()
-    val navigateToSleepDataQuality
-        get() = _navigateToSleepDataQuality
-
-    fun onAsteroidClicked(id: Long) {
-        _navigateToSleepDataQuality.value = id
-    }
-
-    fun onSleepDataQualityNavigated() {
-        _navigateToSleepDataQuality.value = null
+    fun onAsteroidNavigated() {
+        _navigateToAsteroid.value = null
     }
 
     private fun initializeasteroid() {
@@ -127,7 +87,7 @@ class MainViewModel(
      */
     private suspend fun getasteroidFromDatabase(): Asteroid? {
         //return withContext(Dispatchers.IO) {
-        var asteroid = database.getToasteroid()
+        val asteroid = database.getToasteroid()
         return asteroid
         //}
     }

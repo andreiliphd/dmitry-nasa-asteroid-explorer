@@ -5,12 +5,13 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import com.udacity.asteroidradar.database.Asteroid
+import java.util.*
 
 
 @BindingAdapter("codename")
 fun TextView.setCodename(item: Asteroid?) {
     item?.let {
-        text = item.codename.toString()
+        text = item.codename
     }
 }
 
@@ -30,6 +31,12 @@ fun ImageView.setIsPotentiallyHazardous(item: Asteroid?) {
             setImageResource(R.drawable.ic_status_normal)
         }
     }
+}
+
+@BindingAdapter("cad")
+fun setCad(textView: TextView, date: Date) {
+    val context = textView.context
+    textView.text = date.toString()
 }
 
 @BindingAdapter("statusIcon")
