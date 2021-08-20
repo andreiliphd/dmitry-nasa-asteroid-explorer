@@ -51,14 +51,6 @@
                         android:text="@string/close_approach_data_title"
                         android:textColor="@color/default_text_color" />
 
-                    <TextView
-                        android:id="@+id/close_approach_date"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="@{asteroid.closeApproachDate}"
-                        android:textColor="@color/default_text_color"
-                        tools:text="2020-02-01" />
                 </LinearLayout>
 
                 <LinearLayout

@@ -38,6 +38,7 @@ public class AsteroidRepository(
 
     override suspend fun doWork(): Result {
         return try {
+            databaseDao.clear()
             refreshAsteroids()
             Result.success()
         } catch (e: HttpException) {
@@ -72,7 +73,7 @@ public class AsteroidRepository(
                         Asteroid(
                             it.id.toLong(),
                             it.name.toString(),
-                            it.close_approach_data.get(0).close_approach_date.toString(),
+                            it.close_approach_data.get(0).close_approach_date,
                             it.absolute_magnitude_h.toDouble(),
                             it.estimated_diameter.kilometers.estimated_diameter_max.toDouble(),
                             it.close_approach_data.get(0).relative_velocity.kilometers_per_second.toDouble(),

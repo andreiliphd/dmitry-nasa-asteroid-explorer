@@ -20,6 +20,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
 /**
  * A database that stores SleepNight information.
@@ -29,6 +30,7 @@ import androidx.room.RoomDatabase
  * so you can reuse it.
  */
 @Database(entities = [Asteroid::class], version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class AsteroidDatabase : RoomDatabase() {
 
     /**

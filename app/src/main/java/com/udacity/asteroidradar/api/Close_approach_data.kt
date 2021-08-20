@@ -1,6 +1,7 @@
 package com.udacity.asteroidradar.api
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 /*
 Copyright (c) 2021 Kotlin Data Classes Generated from JSON powered by http://www.json2kotlin.com
@@ -16,7 +17,7 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 data class Close_approach_data (
 
-    @SerializedName("close_approach_date") val close_approach_date : String,
+    @SerializedName("close_approach_date") val close_approach_date : Date,
     @SerializedName("close_approach_date_full") val close_approach_date_full : String,
     @SerializedName("epoch_date_close_approach") val epoch_date_close_approach : String,
     @SerializedName("relative_velocity") val relative_velocity : Relative_velocity,

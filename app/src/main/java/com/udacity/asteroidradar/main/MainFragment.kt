@@ -76,12 +76,12 @@ class MainFragment : Fragment() {
         })
 
         binding.asteroidRecycler.adapter = adapter
-        adapter.submitList(
-            listOf(
-                Asteroid(2, "Bolero", "12-09-2018", 0.12, 0.5,  0.2,0.2555,true),
-                Asteroid(1, "Antares", "12-09-2018", 0.12, 0.5, 0.2,0.2555,true)
-            )
-        )
+//        adapter.submitList(
+//            listOf(
+//                Asteroid(2, "Bolero", "12-09-2018", 0.12, 0.5,  0.2,0.2555,true),
+//                Asteroid(1, "Antares", "12-09-2018", 0.12, 0.5, 0.2,0.2555,true)
+//            )
+//        )
 
         MainViewModel.asteroids.observe(viewLifecycleOwner, Observer { asteroid ->
             asteroid?.let {

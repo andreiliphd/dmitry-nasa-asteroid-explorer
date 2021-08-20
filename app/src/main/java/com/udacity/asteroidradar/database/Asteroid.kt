@@ -5,6 +5,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
+import java.util.*
+
 
 @Parcelize
 @Entity(tableName = "asteroids_table")
@@ -13,7 +15,7 @@ data class Asteroid(@PrimaryKey(autoGenerate = true)
                     @ColumnInfo(name = "codename")
                     var codename: String,
                     @ColumnInfo(name = "closeApproachDate")
-                    var closeApproachDate: String,
+                    var closeApproachDate: Date,
                     @ColumnInfo(name = "absoluteMagnitude")
                     var absoluteMagnitude: Double,
                     @ColumnInfo(name = "estimatedDiameter")
