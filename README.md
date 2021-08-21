@@ -1,9 +1,33 @@
-# Purpose of this Folder
+# Asteroid Radar
+============
 
-This folder should contain the scaffolded project files to get a student started on their project. This repo will be added to the Classroom for students to use, so please do not have any solutions in this folder.
+Explore nearby asteroids using NASA API.
 
-## Note: Android Kotlin Gradle Update
-Use the updated Gradle version in the `~/gradle/wrapper/gradle-wrapper.properties` file:
+---
+
+## Features
+- Data binding
+- Network
+- Caching
+
+---
+
+## Setup
+Clone this repo:
 ```
-distributionUrl = https\://services.gradle.org/distributions/gradle-6.1.1-all.zip
+git@github.com:andreiliphd/dmitry-nasa-asteroid-explorer.git
 ```
+Install all the dependencies.
+
+---
+
+
+## Usage
+Compile and run.
+
+---
+
+## License
+You can check out the full license in the LICENSE file.
+
+This project is licensed under the terms of the **MIT** license.
